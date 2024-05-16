@@ -22,7 +22,7 @@ const DisplayArtist = () => {
                 setArtisData(final.data);
                 setAArtistImage(final.data.image[2].url ? final.data.image[2].url : final.data.image[1].url);
                 setArtistSong(final.data.topSongs)
-                console.log(final.data.topSongs)
+
 
                 setLoading(false);
             } catch (error) {

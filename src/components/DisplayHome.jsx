@@ -14,7 +14,6 @@ const DisplayHome = () => {
       try {
         const apiRes = await fetch(`https://jiosaavan-api-2-harsh-patel.vercel.app/api/search/songs?query=english&page=1&limit=40`);
         const final = await apiRes.json();
-        console.log(final.data.results);
 
         setAlbumEnglish(final.data.results);
         setLoading(false);
@@ -27,7 +26,6 @@ const DisplayHome = () => {
       try {
         const apiRes = await fetch(`https://jiosaavan-api-2-harsh-patel.vercel.app/api/search/songs?query=hindi&page=1&limit=40`);
         const final = await apiRes.json();
-        console.log(final.data.results);
 
         setAlbumHindi(final.data.results);
         setLoading(false);

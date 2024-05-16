@@ -3,17 +3,24 @@ import { assets } from '../assets/assets';
 import { PlayerContext } from '../context/PlayerContext';
 
 const Player = () => {
-  const { seekBar, seekBg, play, pause, track, time, playStatus, seekSong } = useContext(PlayerContext);
-  const [setIsPlaying] = useState(false);
+  const { seekBar, seekBg, play, pause, track, time, playStatus, seekSong, playNextSong, previousSong } = useContext(PlayerContext);
+
 
   const handlePlay = () => {
     play();
-    setIsPlaying(true);
+
   };
+
+  const handleNextSong = () => {
+    playNextSong();
+  }
+
+  const handlePrevious = () => {
+    previousSong();
+  }
 
   const handlePause = () => {
     pause();
-    setIsPlaying(false);
   };
 
   const formatTime = (value) => {
@@ -33,8 +40,7 @@ const Player = () => {
 
       <div className='flex flex-col items-center gap-1 m-auto'>
         <div className='flex gap-4'>
-          <img className='w-4 cursor-pointer' src={assets.shuffle_icon} alt='Shuffle'></img>
-          <img className='w-4 cursor-pointer' src={assets.prev_icon} alt='Previous'></img>
+          <img onClick={handlePrevious} className='w-4 cursor-pointer' src={assets.prev_icon} alt='Previous'></img>
           {track.name ? (
             <>
               {playStatus ? (
@@ -46,8 +52,7 @@ const Player = () => {
           ) : (
             <img className='w-4 opacity-40' src={assets.play_icon} alt='Play' title='No track available'></img>
           )}
-          <img className='w-4 cursor-pointer' src={assets.next_icon} alt='Next'></img>
-          <img className='w-4 cursor-pointer' src={assets.loop_icon} alt='Loop'></img>
+          <img onClick={handleNextSong} className='w-4 cursor-pointer' src={assets.next_icon} alt='Next'></img>
         </div>
 
         <div className='flex items-center gap-5'>
@@ -61,6 +66,7 @@ const Player = () => {
       </div>
 
       <div className='hidden lg:flex items-center gap-2 opacity-75'>
+        <img className='w-4 cursor-pointer' src={assets.shuffle_icon} alt='Shuffle'></img>
         <img className='w-4' src={assets.play_icon} alt='Play'></img>
         <img className='w-4' src={assets.mic_icon} alt='Mic'></img>
         <img className='w-4' src={assets.queue_icon} alt='Queue'></img>
