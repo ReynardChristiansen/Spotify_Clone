@@ -49,7 +49,7 @@ const Sidebar = () => {
 
             <div className={`${isSidebarOpen ? 'block' : 'hidden'} lg:block  lg:w-auto lg:mt-70`}>
                 <div className='bg-[#121212] sm:text-sm sm:p-1 lg:p-4 h-[100%] lg:text-xl lg:h-[100%] rounded '>
-                    <div onClick={() => navigate('/')} className='flex items-center gap-3 p-1.5 cursor-pointer lg:pl-8 lg:py-2 lg:mb-[110%] md:mb-[120%] sm:[1000%]'>
+                    <div onClick={() => navigate('/Like')} className='flex items-center gap-3 p-1.5 cursor-pointer lg:pl-8 lg:py-2 lg:mb-[110%] md:mb-[120%] sm:[1000%]'>
                         <img className='w-10' src={assets.like_icon} alt="Like Icon"></img>
                         <p className={`font-bold ${!isSidebarOpen ? 'block' : 'hidden'}`}>Like</p>
                     </div>
