@@ -33,7 +33,6 @@ const PlayerContextProvider = (props) => {
         }
     });
 
-
     useEffect(() => {
         const updateSeekBar = () => {
             const currentTime = audioRef.current.currentTime;
@@ -57,59 +56,51 @@ const PlayerContextProvider = (props) => {
             }
         };
 
-        audioRef.current.ontimeupdate = updateSeekBar;
-
         if (audioRef.current) {
+            audioRef.current.ontimeupdate = updateSeekBar;
             audioRef.current.volume = 0.2;
         }
     }, [downloadUrl, image, name, id]);
-
-
 
     useEffect(() => {
         async function getArtist() {
             try {
                 const apiRes = await fetch(`https://saavn.dev/api/songs/${track.id}`);
                 const final = await apiRes.json();
+                const newArtistId = final.data[0].artists.primary[0].id + "";
+                setArtist(newArtistId);
 
-                setArtist(final.data[0].artists.primary[0].id + "");
-
-                if (artist.length != "") {
+                if (newArtistId) {
                     try {
-                        const apiRes = await fetch(`https://saavn.dev/api/artists/${artist}`);
+                        const apiRes = await fetch(`https://saavn.dev/api/artists/${newArtistId}`);
                         const final_temp = await apiRes.json();
-
-
 
                         const randomIndex = Math.floor(Math.random() * final_temp.data.topSongs.length);
                         const randomSong = final_temp.data.topSongs[randomIndex];
 
-                        setDownloadUrl(randomSong.downloadUrl[4].url)
-                        setImage(randomSong.image[2].url)
-                        const songName = randomSong.name.length > 15 ? randomSong.name.slice(0, 15) + "..." : randomSong.name;
-                        setName(songName);
-                        setId(randomSong.id)
-
+                        if (track.id === randomSong.id) {
+                            getArtist();
+                        } else {
+                            setDownloadUrl(randomSong.downloadUrl[4].url);
+                            setImage(randomSong.image[2].url);
+                            const songName = randomSong.name.length > 15 ? randomSong.name.slice(0, 15) + "..." : randomSong.name;
+                            setName(songName);
+                            setId(randomSong.id);
+                        }
 
                     } catch (error) {
                         console.log(error);
                     }
                 }
 
-
-
             } catch (error) {
                 console.log(error);
             }
         }
 
-
-
         getArtist();
 
     }, [track.id]);
-
-
 
     const play = () => {
         audioRef.current.play();
@@ -134,7 +125,6 @@ const PlayerContextProvider = (props) => {
         playWithUrl(downloadUrl, image, name, id);
     };
 
-
     const seekSong = (e) => {
         audioRef.current.currentTime = (e.nativeEvent.offsetX / seekBg.current.offsetWidth) * audioRef.current.duration;
     };
@@ -144,14 +134,12 @@ const PlayerContextProvider = (props) => {
         await audioRef.current.play();
         setPlayStatus(true);
 
-
         setTrack({
             id: id,
             image: image,
             name: name,
             url: url
-        }
-        )
+        });
 
         setPlaylistHistory(prev => [...prev, {
             id: id,
@@ -159,10 +147,6 @@ const PlayerContextProvider = (props) => {
             name: name,
             url: url
         }]);
-
-        console.log(playlistHistory)
-
-
     };
 
     const contextValue = {
@@ -178,7 +162,6 @@ const PlayerContextProvider = (props) => {
         playWithUrl,
         playNextSong,
         previousSong
-
     };
 
     return (
