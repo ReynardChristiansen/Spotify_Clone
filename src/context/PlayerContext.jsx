@@ -99,8 +99,14 @@ const PlayerContextProvider = (props) => {
         }
 
         getArtist();
-
     }, [track.id]);
+
+    useEffect(() => {
+        if (audioRef.current && track.url) {
+            audioRef.current.src = track.url;
+            audioRef.current.play().then(() => setPlayStatus(true)).catch(error => console.log(error));
+        }
+    }, [track]);
 
     const play = () => {
         audioRef.current.play();
@@ -130,7 +136,9 @@ const PlayerContextProvider = (props) => {
     };
 
     const playWithUrl = async (url, image, name, id) => {
-        audioRef.current.src = url;
+        if (audioRef.current.src !== url) {
+            audioRef.current.src = url;
+        }
         await audioRef.current.play();
         setPlayStatus(true);
 
