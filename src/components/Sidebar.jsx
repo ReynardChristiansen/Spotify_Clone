@@ -35,11 +35,6 @@ const Sidebar = () => {
                         <img className='w-10' src={assets.artist} alt="Artist Icon"></img>
                         <p className={`font-bold ${!isSidebarOpen ? 'block' : 'hidden'}`}>Artist</p>
                     </div>
-
-                    <div onClick={() => navigate('/Library')} className='flex items-center gap-3 p-1.5 cursor-pointer lg:pl-8 lg:py-2'>
-                        <img className='w-10' src={assets.stack_icon} alt="Library Icon"></img>
-                        <p className={`font-bold ${!isSidebarOpen ? 'block' : 'hidden'}`}>Library</p>
-                    </div>
                 </div>
 
 
