@@ -67,7 +67,7 @@ const DisplayArtist = () => {
 
                             <p>Year</p>
 
-                            <p>Type</p>
+                            <p>Artist</p>
                         </div>
 
                         <hr />
@@ -86,6 +86,11 @@ const DisplayArtist = () => {
                                     return name.length > maxLength ? `${name.slice(0, maxLength)}...` : name;
                                 };
 
+                                const sliceArtist = (name) => {
+                                    const maxLength = 20;
+                                    return name.length > maxLength ? `${name.slice(0, maxLength)}...` : name;
+                                };
+
                                 return (
                                     <div
                                         onClick={() => playWithUrl(downloadUrl, item.image[2].url, item.name, item.id)}
@@ -99,7 +104,7 @@ const DisplayArtist = () => {
 
                                         <p className='text-[15px]'>{item.year}</p>
 
-                                        <p className='text-[15px]'>{item.type}</p>
+                                        <p className='text-[15px]'>{sliceArtist(item.artists.primary[0].name)}</p>
                                     </div>
                                 );
                             })
