@@ -23,4 +23,4 @@ https://hirmify.vercel.app/
 
 ## Feedback
 
-If you have any feedback, please reach out to me at reynard.satria@gmail.com.
+If you have any feedback, please reach out to me at reynard.satria@gmail.com
