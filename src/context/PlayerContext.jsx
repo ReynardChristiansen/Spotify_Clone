@@ -60,7 +60,7 @@ const PlayerContextProvider = (props) => {
 
         if (audioRef.current) {
             audioRef.current.ontimeupdate = updateSeekBar;
-            audioRef.current.volume = 0.2;
+            audioRef.current.volume = 0.4;
         }
     }, [downloadUrl, image, name, id]);
 
