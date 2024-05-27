@@ -54,7 +54,7 @@ const Player = () => {
   };
 
   return (
-    <div className='h-[17%] bg-black flex justify-between items-center text-white px-4'>
+    <div className='lg:h-[12%] sm:h-[15%] bg-black flex justify-between items-center text-white px-4'>
 
       <div className='hidden lg:flex items-center gap-4'>
         {track.image && <img className='w-12' src={track.image} alt='' />}
@@ -73,7 +73,7 @@ const Player = () => {
 
       </div>
 
-      <div className='flex flex-col items-center justify-end gap-1 m-auto h-[1px]'>
+      <div className='flex flex-col items-center gap-1 m-auto'>
         <div className='flex gap-4'>
           <img onClick={handlePrevious} className='w-4 cursor-pointer' src={assets.prev_icon} alt='Previous'></img>
           {track.name ? (
@@ -90,7 +90,7 @@ const Player = () => {
           <img onClick={handleNextSong} className='w-4 cursor-pointer' src={assets.next_icon} alt='Next'></img>
         </div>
 
-        <div className='flex items-center gap-5 justify-end'>
+        <div className='flex items-center gap-5'>
           <p>{formatTime(time.currentTime.minute)}:{formatTime(time.currentTime.second)}</p>
           <div ref={seekBg} onClick={seekSong} className='w-[60vw] max-w-[500px] mt-2 bg-gray-300 rounded-full cursor-pointer'>
             <hr ref={seekBar} className='h-1 border-none w-0 bg-[#4ca1e6] rounded-full' />
