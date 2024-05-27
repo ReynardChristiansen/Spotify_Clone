@@ -3,10 +3,14 @@ import home_icon from './home.png'
 import like_icon from './like.png'
 import loop_icon from './loop.png'
 import mic_icon from './mic.png'
+import dog from './dog.jpg'
+import likeFull from './likeFull.png'
 import next_icon from './next.png'
 import play_icon from './play.png'
 import pause_icon from './pause.png'
 import plays_icon from './plays.png'
+import like from './like.png'
+import trash from './trash.png'
 import prev_icon from './prev.png'
 import search_icon from './search.png'
 import shuffle_icon from './shuffle.png'
@@ -72,7 +76,11 @@ export const assets = {
     clock_icon,
     menu,
     close,
-    artist
+    artist,
+    like,
+    likeFull,
+    trash,
+    dog
 }
 
 export const albumsData = [

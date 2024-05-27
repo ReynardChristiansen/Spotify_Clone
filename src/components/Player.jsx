@@ -1,14 +1,29 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { assets } from '../assets/assets';
 import { PlayerContext } from '../context/PlayerContext';
 
 const Player = () => {
-  const { seekBar, seekBg, play, pause, track, time, playStatus, seekSong, playNextSong, previousSong } = useContext(PlayerContext);
 
+  const { seekBar, seekBg, play, pause, track, time, playStatus, seekSong, playNextSong, previousSong, like, likesong } = useContext(PlayerContext);
+  const [isLiked, setIsLiked] = useState(false);
+  const [clicked, setClicked] = useState(false);
+
+  useEffect(() => {
+    if (likesong.length > 0) {
+      const isLikedTrack = likesong.some(item => item.song_id === track.id);
+      console.log(isLikedTrack)
+
+
+      setIsLiked(isLikedTrack);
+
+      if (isLiked == false) {
+        setClicked(false);
+      }
+    }
+  }, [likesong, track.id]);
 
   const handlePlay = () => {
     play();
-
   };
 
   const handleNextSong = () => {
@@ -23,6 +38,18 @@ const Player = () => {
     pause();
   };
 
+  const handleLike = (url, image, name, id) => {
+    setClicked(true);
+    like(url, image, name, id)
+  }
+
+  const sliceName = (name) => {
+    const maxLength = 10;
+    return name.length > maxLength ? `${name.slice(0, maxLength)}...` : name;
+  };
+
+
+
   const formatTime = (value) => {
     value = value.toString();
     return value.length === 1 ? `0${value}` : value;
@@ -34,8 +61,18 @@ const Player = () => {
       <div className='hidden lg:flex items-center gap-4'>
         {track.image && <img className='w-12' src={track.image} alt='' />}
         <div>
-          <p>{track.name}</p>
+          <p>{sliceName(track.name)}</p>
         </div>
+
+        {!isLiked && !clicked ? (
+          <img onClick={() => handleLike(track.url, track.image, track.name, track.id)} className='w-5 cursor-pointer' src={assets.like} alt='Like' />
+        ) : (
+          <img className='w-5' src={assets.likeFull} alt='Like' />
+        )}
+
+
+
+
       </div>
 
       <div className='flex flex-col items-center gap-1 m-auto'>
@@ -65,7 +102,7 @@ const Player = () => {
 
       </div>
 
-      <div className='hidden lg:flex items-center gap-2 opacity-75'>
+      <div className='hidden lg:flex items-center gap-2'>
         <img className='w-4 cursor-pointer' src={assets.shuffle_icon} alt='Shuffle'></img>
         <img className='w-4' src={assets.play_icon} alt='Play'></img>
         <img className='w-4' src={assets.mic_icon} alt='Mic'></img>

@@ -7,6 +7,8 @@ const PlayerContextProvider = (props) => {
     const seekBg = useRef();
     const seekBar = useRef();
     const [playlistHistory, setPlaylistHistory] = useState([]);
+    const [likesong, setLikesong] = useState([]);
+
 
     const [track, setTrack] = useState({
         id: "mhycwNJZ",
@@ -62,6 +64,7 @@ const PlayerContextProvider = (props) => {
         }
     }, [downloadUrl, image, name, id]);
 
+    //---------------------------------------------------------------------------------------------------------------------------------------
     useEffect(() => {
         async function getArtist() {
             try {
@@ -81,11 +84,40 @@ const PlayerContextProvider = (props) => {
                         if (track.id === randomSong.id) {
                             getArtist();
                         } else {
-                            setDownloadUrl(randomSong.downloadUrl[4].url);
-                            setImage(randomSong.image[2].url);
-                            const songName = randomSong.name.length > 15 ? randomSong.name.slice(0, 15) + "..." : randomSong.name;
-                            setName(songName);
-                            setId(randomSong.id);
+
+                            try {
+                                const apiRes = await fetch(`https://api-song-khaki.vercel.app/api/songs`);
+                                const tempss = await apiRes.json();
+                                const filteredSongs = tempss.filter(song => song.song_id !== track.id);
+
+
+                                if (filteredSongs.length == tempss.length - 1) {
+                                    const randomIndex = Math.floor(Math.random() * filteredSongs.length);
+                                    const randomSong = filteredSongs[randomIndex];
+
+                                    if (randomSong.song_id == track.id) {
+                                        getArtist();
+                                    }
+                                    else {
+                                        setDownloadUrl(randomSong.song_url);
+                                        setImage(randomSong.song_image);
+                                        const songName = randomSong.song_name.length > 15 ? randomSong.song_name.slice(0, 15) + "..." : randomSong.song_name;
+                                        setName(songName);
+                                        setId(randomSong.song_id);
+                                    }
+
+                                } else {
+                                    setDownloadUrl(randomSong.downloadUrl[4].url);
+                                    setImage(randomSong.image[2].url);
+                                    const songName = randomSong.name.length > 15 ? randomSong.name.slice(0, 15) + "..." : randomSong.name;
+                                    setName(songName);
+                                    setId(randomSong.id);
+                                }
+
+                            } catch (error) {
+                                console.log(error);
+                            }
+
                         }
 
                     } catch (error) {
@@ -101,11 +133,26 @@ const PlayerContextProvider = (props) => {
         getArtist();
     }, [track.id]);
 
+    //---------------------------------------------------------------------------------------------------------------------------------------
+
     useEffect(() => {
         if (audioRef.current && track.url) {
             audioRef.current.src = track.url;
             audioRef.current.play().then(() => setPlayStatus(true)).catch(error => console.log(error));
         }
+
+        async function getLike() {
+            try {
+                const apiRes = await fetch(`https://api-song-khaki.vercel.app/api/songs`);
+                const final = await apiRes.json();
+
+                setLikesong(final);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        getLike();
     }, [track]);
 
     const play = () => {
@@ -113,13 +160,22 @@ const PlayerContextProvider = (props) => {
         setPlayStatus(true);
     };
 
-    const previousSong = () => {
+    const previousSong = async () => {
         const currentIndex = playlistHistory.findIndex(song => song.id === track.id);
         const previousIndex = (currentIndex - 1 + playlistHistory.length) % playlistHistory.length;
 
+        console.log(currentIndex);
+        console.log(previousIndex);
         const { url, image, name, id } = playlistHistory[previousIndex];
 
-        playWithUrl(url, image, name, id);
+        await playWithoutUpdatingHistory(url);
+
+        setTrack({
+            id: id,
+            image: image,
+            name: name,
+            url: url
+        });
     };
 
     const pause = () => {
@@ -133,6 +189,14 @@ const PlayerContextProvider = (props) => {
 
     const seekSong = (e) => {
         audioRef.current.currentTime = (e.nativeEvent.offsetX / seekBg.current.offsetWidth) * audioRef.current.duration;
+    };
+
+    const playWithoutUpdatingHistory = async (url) => {
+        if (audioRef.current.src !== url) {
+            audioRef.current.src = url;
+        }
+        await audioRef.current.play();
+        setPlayStatus(true);
     };
 
     const playWithUrl = async (url, image, name, id) => {
@@ -149,12 +213,58 @@ const PlayerContextProvider = (props) => {
             url: url
         });
 
-        setPlaylistHistory(prev => [...prev, {
-            id: id,
-            image: image,
-            name: name,
-            url: url
-        }]);
+        setPlaylistHistory(prev => {
+            const updatedHistory = [...prev, {
+                id: id,
+                image: image,
+                name: name,
+                url: url
+            }];
+            console.log('Updated Playlist History:', updatedHistory);
+            return updatedHistory;
+        });
+
+    };
+
+    const like = async (song_url, song_image, song_name, song_id) => {
+        const song = { song_id, song_name, song_url, song_image };
+
+        try {
+            const response = await fetch('https://api-song-khaki.vercel.app/api/songs', {
+                method: 'POST',
+                body: JSON.stringify(song),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+
+            } else {
+                console.error('Failed to add song:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    const deleteSong = async (id) => {
+
+        try {
+            const response = await fetch('https://api-song-khaki.vercel.app/api/songs/' + id, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+
+            } else {
+                console.error('Failed to delete song:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
     const contextValue = {
@@ -169,7 +279,10 @@ const PlayerContextProvider = (props) => {
         seekSong,
         playWithUrl,
         playNextSong,
-        previousSong
+        previousSong,
+        like,
+        likesong,
+        deleteSong
     };
 
     return (
