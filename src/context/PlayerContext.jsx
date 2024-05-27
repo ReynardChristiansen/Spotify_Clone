@@ -164,18 +164,9 @@ const PlayerContextProvider = (props) => {
         const currentIndex = playlistHistory.findIndex(song => song.id === track.id);
         const previousIndex = (currentIndex - 1 + playlistHistory.length) % playlistHistory.length;
 
-        console.log(currentIndex);
-        console.log(previousIndex);
         const { url, image, name, id } = playlistHistory[previousIndex];
 
-        await playWithoutUpdatingHistory(url);
-
-        setTrack({
-            id: id,
-            image: image,
-            name: name,
-            url: url
-        });
+        await playWithUrl(url, image, name, id);
     };
 
     const pause = () => {
@@ -189,14 +180,6 @@ const PlayerContextProvider = (props) => {
 
     const seekSong = (e) => {
         audioRef.current.currentTime = (e.nativeEvent.offsetX / seekBg.current.offsetWidth) * audioRef.current.duration;
-    };
-
-    const playWithoutUpdatingHistory = async (url) => {
-        if (audioRef.current.src !== url) {
-            audioRef.current.src = url;
-        }
-        await audioRef.current.play();
-        setPlayStatus(true);
     };
 
     const playWithUrl = async (url, image, name, id) => {
@@ -220,7 +203,6 @@ const PlayerContextProvider = (props) => {
                 name: name,
                 url: url
             }];
-            console.log('Updated Playlist History:', updatedHistory);
             return updatedHistory;
         });
 

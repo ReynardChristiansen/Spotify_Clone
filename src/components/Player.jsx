@@ -11,8 +11,6 @@ const Player = () => {
   useEffect(() => {
     if (likesong.length > 0) {
       const isLikedTrack = likesong.some(item => item.song_id === track.id);
-      console.log(isLikedTrack)
-
 
       setIsLiked(isLikedTrack);
 
