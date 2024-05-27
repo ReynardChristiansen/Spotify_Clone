@@ -125,13 +125,14 @@ const Search = () => {
                             >
                                 <p className='text-white'>
                                     <img className='inline w-10 mr-5' src={item.image[0].url} alt='Song Thumbnail' />
-                                    {sliceName(item.name)}
+                                    {sliceName(item?.name)}
                                 </p>
 
-                                <p className='text-[15px]'>{item.year}</p>
+                                <p className='text-[15px]'>{item?.year ? item?.year : ''}</p>
 
-                                <p className='text-[15px]'>{sliceArtist(item.artists.primary[0].name)}</p>
+                                <p className='text-[15px]'>{item?.artists?.primary[0]?.name ? sliceArtist(item.artists.primary[0].name) : ''}</p>
                             </div>
+                            
                         );
                     })}
                 </div>
