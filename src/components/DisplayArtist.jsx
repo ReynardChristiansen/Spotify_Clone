@@ -98,7 +98,7 @@ const DisplayArtist = () => {
                                         className='grid grid-cols-3 gap-2 p-2 items-center text-[#a7a7a7] hover:bg-[#ffffff2b] cursor-pointer'
                                     >
                                         <p className='text-white'>
-                                            <img className='inline w-10 mr-5' src={item.image[0].url} alt='Song Thumbnail' />
+                                            <img className='inline w-10 mr-5' src={item.image[0].url} alt='Song' />
                                             {sliceName(item.name)}
                                         </p>
 

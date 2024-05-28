@@ -114,7 +114,7 @@ const Like = () => {
                                     onClick={() => playWithUrl(item.song_url, item.song_image, item.song_name, item.song_id)}
                                 >
                                     <p className='text-white'>
-                                        <img className='inline w-10 mr-5' src={item.song_image} alt='Song Thumbnail' />
+                                        <img className='inline w-10 mr-5' src={item.song_image} alt='Song' />
                                         {sliceName(item.song_name)}
                                     </p>
 
