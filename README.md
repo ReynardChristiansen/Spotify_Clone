@@ -1,6 +1,6 @@
 # Hirmify
 
-Hirmify is an online platform designed to facilitate song playback, song search, and artist information search.
+Hirmify is an online platform designed to facilitate song playback, song search, and artist information search. Users can also personalize their music experience by liking songs to save them in their personal library and deleting songs in their library.
 
 
 
