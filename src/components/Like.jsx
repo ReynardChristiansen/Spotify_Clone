@@ -52,7 +52,7 @@ const Like = () => {
             <Navbar />
 
             <div className='mt-10 flex gap-8 flex-col md:flex-row md:items-end'>
-                <img className='w-48 rounded-sm' src="https://pics.craiyon.com/2023-09-09/cc1b77bc7d244b61ad826978eb9d0b04.webp" alt='' />
+                <img className='w-48 rounded-sm' src={assets.capybara} alt='' />
 
                 <div className='flex flex-col'>
                     <p>Playlist</p>

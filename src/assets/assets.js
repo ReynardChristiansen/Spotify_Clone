@@ -4,6 +4,7 @@ import like_icon from './like.png'
 import loop_icon from './loop.png'
 import mic_icon from './mic.png'
 import dog from './dog.jpg'
+import capybara from './capybara.png'
 import likeFull from './likeFull.png'
 import next_icon from './next.png'
 import play_icon from './play.png'
@@ -28,7 +29,7 @@ import spotify_logo from './spotify_logo.png'
 import clock_icon from './clock_icon.png'
 import close from './close.png'
 import artist from './artist.png'
-import menu from './menu.png'
+import menu from './menu.png'   
 import img1 from './img1.jpg'
 import img2 from './img2.jpg'
 import img3 from './img3.jpg'
@@ -80,7 +81,8 @@ export const assets = {
     like,
     likeFull,
     trash,
-    dog
+    dog,
+    capybara
 }
 
 export const albumsData = [
