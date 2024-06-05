@@ -24,6 +24,11 @@ Hirmify is an online platform designed to facilitate song playback, song search,
 https://hirmify.vercel.app/
 
 
+## New Version
+
+https://hirmifys.vercel.app/
+
+
 
 ## Feedback
 
